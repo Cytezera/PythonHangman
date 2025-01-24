@@ -10,8 +10,8 @@ def checkWordInGame(word, getInput, hiddenWord,guesses):
     for index, char in enumerate(word):
         if char == getInput:
             hiddenWord[index] = char 
-        else: 
-            guesses -= 1 
+            return guesses
+    guesses -= 1 
     return guesses 
 def getUserInput(seen, word , hiddenWord, guesses): 
     while True:  
