@@ -6,13 +6,14 @@ def initializeGame():
     seen = set()
     return word 
 
-def checkWordInGame(word, getInput, hiddenWord):
+def checkWordInGame(word, getInput, hiddenWord,guesses):
     for index, char in enumerate(word):
         if char == getInput:
             hiddenWord[index] = char 
-    return hiddenWord 
-
-def getUserInput(seen, word , hiddenWord): 
+        else: 
+            guesses -= 1 
+    return guesses 
+def getUserInput(seen, word , hiddenWord, guesses): 
     while True:  
         getInput = str(input("Please select a character: " ).lower())
         if len(getInput) != 1: 
@@ -20,10 +21,10 @@ def getUserInput(seen, word , hiddenWord):
             continue
         if getInput not in seen:
             seen.add(getInput)
-            checkWordInGame(word, getInput , hiddenWord)
+            guesses = checkWordInGame(word, getInput , hiddenWord, guesses)
             break; 
         print ("You have already selected this word" ) 
-    return hiddenWord 
+    return hiddenWord , guesses
 
 def displayGame(guesses, hiddenWord):
     print (f"Number of guesses left : {guesses}")   
@@ -38,7 +39,7 @@ def menu():
     print("Please guess your word" ) 
     while guesses > 0: 
         displayGame(guesses, hiddenWord)
-        hiddenWord = getUserInput(seen,word, hiddenWord)
+        hiddenWord, guesses  = getUserInput(seen,word, hiddenWord,guesses)
         if "".join(hiddenWord) == word:
             print ("Congratualtions !")
             print (f"You got it in {10-guesses} tries") 
